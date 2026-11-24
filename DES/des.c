@@ -16,3 +16,44 @@ uint64_t IP_inverse_function(uint64_t input){
         result = (result << 1) | bit; }
     return result;
 }
+
+uint64_t E_function(uint32_t input)
+{
+    uint64_t result = 0;
+    for (int i = 0; i < 48; i++){
+        uint16_t bit = (input >> (32 - E[i])) & 1;
+        result = (result << 1) | bit; }
+    return result;
+}
+
+uint32_t P_function(uint32_t input)
+{
+    uint64_t result = 0;
+    for (int i = 0; i < 32; i++){
+        uint16_t bit = (input >> (32 - P[i])) & 1;
+        result = (result << 1) | bit; }
+    return result;
+}
+
+// Ham F
+uint32_t f_function(uint32_t R, uint64_t ki)
+{
+    uint8_t B[8];
+    uint64_t expanded_R;
+    uint64_t xor;
+    uint32_t sbox_result = 0;
+    expanded_R = E_function(R);
+    xor = expanded_R ^ ki;
+    for (int i = 0; i < 8; i++){
+        B[i] = (xor >> (42 - 6 * i)) & 0x3F; }
+
+    for (int i = 0; i < 8; i++) {
+        int row = ((B[i] >> 4) & 0x02) | (B[i] & 1);
+        int col = (B[i] >> 1) & 0x0F;
+        int sbox_i_output = S_box[i][row][col];
+
+        sbox_result = (sbox_result << 4) | sbox_i_output;
+    }
+
+    return P_function(sbox_result);
+}
