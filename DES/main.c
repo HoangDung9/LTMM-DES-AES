@@ -34,3 +34,30 @@ uint64_t round_16(uint64_t input, uint64_t k[16])
         L = tmp; }
     return ((uint64_t)R << 32) | L;
 }
+int main() {
+    uint64_t plaintext;
+    uint64_t key;
+    uint64_t k[16];
+    plaintext = Nhap_plaintext();
+    key = Nhap_key();
+
+    gen_subkey(key, k);
+    uint64_t IP_output = IP_function(plaintext);
+
+    printf("IP output binary: ");
+    print_binary64(IP_output);
+    printf("\n");
+
+    // Di qua 16 vong Feistel
+    uint64_t round_output = round_16(IP_output, k);
+
+    printf("Round 16 output binary: ");
+    print_binary64(round_output);
+    printf("\n");
+    
+    uint64_t ciphertext = IP_inverse_function(round_output);
+    printf("Ciphertext: %016" PRIX64 "\n", ciphertext);
+    printf("Ciphertext in binary: ");
+    print_binary64(ciphertext);
+    return 0;
+}
