@@ -1,7 +1,7 @@
 #ifndef DES_TABLES_H
 #define DES_TABLES_H
 
-// Hoan vi ban dau
+
 static const int IP[64] = {
     58,50,42,34,26,18,10,2,
     60,52,44,36,28,20,12,4,
@@ -13,7 +13,7 @@ static const int IP[64] = {
     63,55,47,39,31,23,15,7
 };
 
-// Hoan vi cuoi
+
 static const int IP_inv[64] = {
     40,8,48,16,56,24,64,32,
     39,7,47,15,55,23,63,31,
@@ -25,7 +25,7 @@ static const int IP_inv[64] = {
     33,1,41,9,49,17,57,25
 };
 
-// Mo rong 32 bit thanh 48 bit
+
 static const int E[48] = {
     32,1,2,3,4,5,
     4,5,6,7,8,9,
@@ -37,7 +37,7 @@ static const int E[48] = {
     28,29,30,31,32,1
 };
 
-// Hoan vi P
+
 static const int P[32] = {
     16,7,20,21,
     29,12,28,17,
@@ -49,7 +49,6 @@ static const int P[32] = {
     22,11,4,25
 };
 
-// Chon 56 bit tu khoa 64 bit
 static const int PC1[56] = {
     57,49,41,33,25,17,9,
     1,58,50,42,34,26,18,
@@ -61,7 +60,7 @@ static const int PC1[56] = {
     21,13,5,28,20,12,4
 };
 
-// Chon 48 bit cho khoa con
+
 static const int PC2[48] = {
     14,17,11,24,1,5,
     3,28,15,6,21,10,
@@ -72,6 +71,8 @@ static const int PC2[48] = {
     44,49,39,56,34,53,
     46,42,50,36,29,32
 };
+
+static const int shift_table[16] = {1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1};
 
 // 8 bang S-box
 static const int S_box[8][4][16] = {
