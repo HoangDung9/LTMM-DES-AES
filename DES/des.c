@@ -57,3 +57,44 @@ uint32_t f_function(uint32_t R, uint64_t ki)
 
     return P_function(sbox_result);
 }
+
+uint64_t PC1_function(uint64_t key)
+{
+    uint64_t result = 0;
+
+    for (int i = 0; i < 56; i++){
+        uint16_t bit = (key >> (64 - PC1[i])) & 1;
+        result = (result << 1) | bit; }
+    return result;
+}
+
+uint64_t PC2_function(uint64_t input)
+{
+    uint64_t result = 0;
+    for (int i = 0; i < 48; i++){
+        uint16_t bit = (input >> (56 - PC2[i])) & 1;
+        result = (result << 1) | bit; }
+    return result;
+}
+
+// Ham dich vong trai
+uint64_t left_shift(uint64_t input, int s) {
+    uint64_t result = ((input << s) |
+                      (input >> (28 - s))) & 0x0FFFFFFF;
+
+    return result; }
+
+// Ham tao ra 16 khoa con
+void gen_subkey(uint64_t key, uint64_t k[16])
+{
+    uint64_t v;
+    uint64_t C;
+    uint64_t D;
+    v = PC1_function(key);
+    C = (v >> 28) & 0x0FFFFFFF;
+    D = v & 0x0FFFFFFF;
+    for (int i = 0; i < 16; i++) {
+        C = left_shift(C, shift_table[i]);
+        D = left_shift(D, shift_table[i]);
+        k[i] = PC2_function((C << 28) | D); }
+}
